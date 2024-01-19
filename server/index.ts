@@ -1,13 +1,16 @@
+
+import dbConnect from './mongoose';
 import { publicProcedure, router } from './trpc';
+import bookModel from './db/bookModel'
 
 export const appRouter = router({
-  getTodos: publicProcedure
+  getAllBooks: publicProcedure
     .query(async () => {
       // Retrieve users from a data source, this is an imaginary database
-      const res = await fetch('https://jsonplaceholder.typicode.com/todos');
-      const data=await res.json()
+      const data = await bookModel.find({}).sort({ createdAt: -1 })
+      const allBooks=await data.json()
              
-      return data;
+      return allBooks;
       // return [10,20,30];
     }),
 });
